@@ -1,16 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
-interface TodoState {
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+interface AuthState {
   isAuth: boolean;
 }
+const initialState: AuthState = {
+  isAuth: false,
+};
 const authSlice = createSlice({
   name: "auth",
-  initialState: { isAuth: false },
+  initialState,
   reducers: {
-    setAuth(state: TodoState, action: any) {
-      state.isAuth = action.payload;
+    setAuth(state: AuthState, action: PayloadAction<AuthState>) {
+      state = action.payload;
     },
   },
 });
 
+export const selectAuth = (state: { auth: AuthState }) => state.auth.isAuth;
 export const { setAuth } = authSlice.actions;
 export default authSlice.reducer;

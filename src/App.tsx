@@ -1,19 +1,11 @@
 import React, { useEffect } from "react";
-import {
-  CssBaseline,
-  ThemeProvider,
-  Typography,
-  Button,
-  Grid,
-} from "@material-ui/core";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { getTheme, THEME_LOCALE_STORAGE_KEY } from "./configs/theme";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  toggleTheme,
-  selectCurrentTheme,
-  ThemeEnum,
-} from "./configs/themeSlice";
+import { toggleTheme, selectCurrentTheme } from "./configs/themeSlice";
 import { AppDispatch } from "./configs/store";
+import Routers from "components/routers/Routers";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const App: React.FC = () => {
   const currentTheme = useSelector(selectCurrentTheme);
@@ -26,36 +18,13 @@ const App: React.FC = () => {
     }
   }, [dispatch]);
 
-  const handlerToggleTheme = () => {
-    const togglingTheme =
-      currentTheme === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK;
-    localStorage.setItem(THEME_LOCALE_STORAGE_KEY, togglingTheme);
-    dispatch(toggleTheme(togglingTheme));
-  };
-
   return (
     <>
       <ThemeProvider theme={getTheme(currentTheme)}>
         <CssBaseline />
-        <Typography variant="h1" color="primary" align="center">
-          Social
-        </Typography>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          alignContent="center"
-          wrap="nowrap"
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handlerToggleTheme}
-          >
-            Toggle Theme {currentTheme}
-          </Button>
-        </Grid>
+        <Router>
+          <Routers />
+        </Router>
       </ThemeProvider>
     </>
   );

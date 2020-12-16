@@ -18,7 +18,6 @@ export const getTheme = (currentTheme: ThemeEnum | undefined) => {
       primary: {
         main: "#000",
       },
-
       background: {
         default: "#f9f9f9",
       },
