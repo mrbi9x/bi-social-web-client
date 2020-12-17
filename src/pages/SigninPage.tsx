@@ -9,6 +9,7 @@ import {
   makeStyles,
   Box,
   CircularProgress,
+  Avatar,
 } from "@material-ui/core";
 // import { AccountBox } from "@material-ui/icons";
 import { AppDispatch } from "configs/store";
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     padding: theme.spacing(4),
   },
   submitButton: {
@@ -45,7 +47,7 @@ export default function SigninPage() {
     setTimeout(() => {
       dispatch(setAuth({ isAuth: true }));
       setStatus("idle");
-      navigate("../");
+      navigate(-1);
     }, 2500);
   };
 
@@ -63,24 +65,25 @@ export default function SigninPage() {
       >
         <Container maxWidth="xs" fixed className={classes.loginContainer}>
           <Paper elevation={24}>
-            <Box paddingTop={2}>
-              <Typography variant="h4" color="initial" align="center">
-                Login
-              </Typography>
+            <Box>
               <form
                 className={classes.loginForm}
                 onSubmit={handlerSignin}
                 noValidate
               >
+                <Avatar />
+                <Typography variant="h4" color="initial" align="center">
+                  Signin
+                </Typography>
                 <TextField
                   id="username"
-                  label="Username"
+                  label="Email"
                   variant="outlined"
                   margin="normal"
-                  placeholder="Username or Email"
-                  autoComplete="email"
+                  placeholder="Email"
+                  autoComplete="username"
                   fullWidth
-                  size="small"
+                  size="medium"
                   // value={}
                   // onChange={}
                 />
@@ -92,7 +95,7 @@ export default function SigninPage() {
                   margin="normal"
                   placeholder="Password"
                   fullWidth
-                  size="small"
+                  size="medium"
                   // value={}
                   // onChange={}
                 />

@@ -9,7 +9,6 @@ import { useRoutes, Navigate } from "react-router-dom";
 
 export default function Routers() {
   const isAuth = useSelector(selectAuth);
-  console.log("auth state: ", isAuth);
 
   const rootRouters = useRoutes([
     {
