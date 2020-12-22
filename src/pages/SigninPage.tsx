@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import {
   Paper,
@@ -10,12 +10,23 @@ import {
   Box,
   CircularProgress,
   Avatar,
+  InputAdornment,
+  IconButton,
+  Divider,
 } from "@material-ui/core";
-// import { AccountBox } from "@material-ui/icons";
+import {
+  AccountBox,
+  Clear,
+  Lock,
+  Visibility,
+  VisibilityOff,
+} from "@material-ui/icons";
 import { AppDispatch } from "configs/store";
 import { useDispatch } from "react-redux";
 import { setAuth } from "configs/authSlice";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { getSecretUUID, authen, AuthRequest } from "apis/AuthApi";
+import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
   loginContainer: {
@@ -30,8 +41,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(4),
   },
+  textfieldIconColor: {
+    color: "gray",
+  },
   submitButton: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -40,14 +54,24 @@ export default function SigninPage() {
   const dispatch: AppDispatch = useDispatch();
   const [status, setStatus] = useState("idle");
   const navigate = useNavigate();
+  const { register, handleSubmit, reset, errors } = useForm<AuthRequest>();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handlerSignin = (ev: FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
+  const handlerSignin = (data: AuthRequest) => {
+    console.log(data);
     setStatus("loading");
-    setTimeout(() => {
-      dispatch(setAuth({ isAuth: true }));
-      setStatus("idle");
-      navigate(-1);
+    setTimeout(async () => {
+      try {
+        const authRes = await authen(data);
+        console.log(authRes);
+        const secretUUID = await getSecretUUID();
+        console.log(secretUUID);
+        dispatch(setAuth({ isAuth: true }));
+        navigate(-1);
+      } catch (error) {
+      } finally {
+        setStatus("idle");
+      }
     }, 2500);
   };
 
@@ -68,7 +92,7 @@ export default function SigninPage() {
             <Box>
               <form
                 className={classes.loginForm}
-                onSubmit={handlerSignin}
+                onSubmit={handleSubmit(handlerSignin)}
                 noValidate
               >
                 <Avatar />
@@ -76,28 +100,69 @@ export default function SigninPage() {
                   Signin
                 </Typography>
                 <TextField
+                  name="loginname"
                   id="username"
                   label="Email"
                   variant="outlined"
                   margin="normal"
                   placeholder="Email"
-                  autoComplete="username"
+                  autoComplete="off"
+                  color="primary"
                   fullWidth
-                  size="medium"
-                  // value={}
-                  // onChange={}
+                  error={errors.loginname ? true : false}
+                  helperText={errors?.loginname && "Email is required"}
+                  inputRef={register({ required: true })}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <AccountBox className={classes.textfieldIconColor} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Clear"
+                          onClick={() => reset()}
+                          size="small"
+                        >
+                          <Clear />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <TextField
-                  id="passworc"
+                  id="password"
+                  name="password"
                   label="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   variant="outlined"
                   margin="normal"
                   placeholder="Password"
+                  color="primary"
                   fullWidth
-                  size="medium"
-                  // value={}
-                  // onChange={}
+                  error={errors.password !== undefined}
+                  helperText={errors.loginname && "Password is required"}
+                  inputRef={register({ required: true })}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock className={classes.textfieldIconColor} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Show password"
+                          onClick={() => setShowPassword(!showPassword)}
+                          size="small"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    "aria-selected": false,
+                  }}
                 />
                 <Button
                   variant="contained"
@@ -107,10 +172,22 @@ export default function SigninPage() {
                   size="large"
                   className={classes.submitButton}
                   disabled={status === "loading"}
+                  startIcon={
+                    status === "loading" && <CircularProgress size="1rem" />
+                  }
                 >
-                  {status === "loading" && <CircularProgress size="1rem" />}
                   Signin
                 </Button>
+                <Divider variant="middle" />
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    color="initial"
+                    align="center"
+                  >
+                    Not have account? <NavLink to="/signup">Signup</NavLink>
+                  </Typography>
+                </Box>
               </form>
             </Box>
           </Paper>

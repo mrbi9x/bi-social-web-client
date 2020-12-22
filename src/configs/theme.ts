@@ -6,18 +6,18 @@ export const getTheme = (currentTheme: ThemeEnum | undefined) => {
     return createMuiTheme({
       palette: {
         type: "dark",
-        primary: {
-          main: "#fff",
-        },
+        // primary: {
+        // main: "#fff",
+        // },
       },
     });
   }
   return createMuiTheme({
     palette: {
       type: "light",
-      primary: {
-        main: "#000",
-      },
+      // primary: {
+      // main: "#000",
+      // },
       background: {
         default: "#f9f9f9",
       },
