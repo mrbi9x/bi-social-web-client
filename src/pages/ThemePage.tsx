@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import ToggleTheme from "components/ToggleTheme";
 import Container from "@material-ui/core/Container";
 import { Paper, Grid, Box } from "@material-ui/core";
+import Navigate from "components/routers/Navigate";
 
 export default function ThemePage() {
   const currentTheme = useSelector(selectCurrentTheme);
   return (
     <>
+      <Navigate />
       <Grid
         container
         direction="column"

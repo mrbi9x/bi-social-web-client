@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import {
   Paper,
@@ -22,9 +22,9 @@ import {
   VisibilityOff,
 } from "@material-ui/icons";
 import { AppDispatch } from "configs/store";
-import { useDispatch } from "react-redux";
-import { setAuth } from "configs/authSlice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth, doLogin } from "configs/authSlice";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { getSecretUUID, authen, AuthRequest } from "apis/AuthApi";
 import { useForm } from "react-hook-form";
 
@@ -49,34 +49,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SigninPage() {
+interface ISigninPageLocationState {
+  from?: string;
+}
+
+const SigninPage: FC<any> = () => {
   const classes = useStyles();
-  const dispatch: AppDispatch = useDispatch();
-  const [status, setStatus] = useState("idle");
+  const { isAuth, status, error } = useSelector(selectAuth);
   const navigate = useNavigate();
+  const location = useLocation();
+  const backUrl = (location.state as ISigninPageLocationState)?.from;
+  // if (isAuth) {
+  //   navigate(backUrl ? backUrl : "/");
+  // }
+  const dispatch: AppDispatch = useDispatch();
   const { register, handleSubmit, reset, errors } = useForm<AuthRequest>();
   const [showPassword, setShowPassword] = useState(false);
 
   const handlerSignin = (data: AuthRequest) => {
-    console.log(data);
-    setStatus("loading");
-    setTimeout(async () => {
-      try {
-        const authRes = await authen(data);
-        console.log(authRes);
-        const secretUUID = await getSecretUUID();
-        console.log(secretUUID);
-        dispatch(setAuth({ isAuth: true }));
-        navigate(-1);
-      } catch (error) {
-      } finally {
-        setStatus("idle");
-      }
-    }, 2500);
+    try {
+      dispatch(doLogin(data)).then(() => navigate(backUrl ? backUrl : "/"));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
+      {isAuth && navigate(-1)}
       <Grid
         container
         direction="column"
@@ -100,7 +100,7 @@ export default function SigninPage() {
                   Signin
                 </Typography>
                 <TextField
-                  name="loginname"
+                  name="username"
                   id="username"
                   label="Email"
                   variant="outlined"
@@ -109,17 +109,17 @@ export default function SigninPage() {
                   autoComplete="off"
                   color="primary"
                   fullWidth
-                  error={errors.loginname ? true : false}
-                  helperText={errors?.loginname && "Email is required"}
+                  error={errors.username ? true : false}
+                  helperText={errors?.username && "Email is required"}
                   inputRef={register({ required: true })}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccountBox className={classes.textfieldIconColor} />
-                      </InputAdornment>
-                    ),
+                    // startAdornment: (
+                    //   <InputAdornment position="start">
+                    //     <AccountBox className={classes.textfieldIconColor} />
+                    //   </InputAdornment>
+                    // ),
                     endAdornment: (
-                      <InputAdornment position="end">
+                      <InputAdornment position="end" disableTypography>
                         <IconButton
                           aria-label="Clear"
                           onClick={() => reset()}
@@ -142,14 +142,14 @@ export default function SigninPage() {
                   color="primary"
                   fullWidth
                   error={errors.password !== undefined}
-                  helperText={errors.loginname && "Password is required"}
+                  helperText={errors.username && "Password is required"}
                   inputRef={register({ required: true })}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Lock className={classes.textfieldIconColor} />
-                      </InputAdornment>
-                    ),
+                    // startAdornment: (
+                    //   <InputAdornment position="start">
+                    //     <Lock className={classes.textfieldIconColor} />
+                    //   </InputAdornment>
+                    // ),
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
@@ -188,6 +188,9 @@ export default function SigninPage() {
                     Not have account? <NavLink to="/signup">Signup</NavLink>
                   </Typography>
                 </Box>
+                <Typography variant="subtitle2" color="error">
+                  {error && JSON.stringify(error)}
+                </Typography>
               </form>
             </Box>
           </Paper>
@@ -195,4 +198,6 @@ export default function SigninPage() {
       </Grid>
     </>
   );
-}
+};
+
+export default SigninPage;

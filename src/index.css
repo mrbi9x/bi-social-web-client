@@ -26,6 +26,12 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Disable clear & password eye on input field*/
+input::-ms-clear,
+input::-ms-reveal {
+  display: none;
+}
+
 /* custom css for style media with aspect ratio. Usage:  */
 /* <div style="--aspect-ratio:815/419;">
 </div>

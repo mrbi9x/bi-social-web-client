@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export interface AuthRequest {
-  loginname: string;
+  username: string;
   password: string;
 }
 interface AuthResponse {
@@ -10,7 +10,7 @@ interface AuthResponse {
 }
 
 const authen = async (authReq: AuthRequest): Promise<AuthResponse> => {
-  return axios.post("/auth/token", authReq);
+  return axios.post("/auth/token", authReq).then((res) => res.data);
 };
 
 async function getSecretUUID() {

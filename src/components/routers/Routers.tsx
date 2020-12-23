@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useRoutes, Navigate } from "react-router-dom";
 
 export default function Routers() {
-  const isAuth = useSelector(selectAuth);
+  const { isAuth } = useSelector(selectAuth);
 
   const rootRouters = useRoutes([
     {
@@ -17,7 +17,11 @@ export default function Routers() {
     },
     {
       path: "/themes",
-      element: isAuth ? <ThemePage /> : <Navigate to="/signin" />,
+      element: isAuth ? (
+        <ThemePage />
+      ) : (
+        <Navigate to="/signin" state={{ from: "/themes" }} replace={true} />
+      ),
     },
     {
       path: "/signin",
