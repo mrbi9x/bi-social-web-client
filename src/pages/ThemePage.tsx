@@ -10,7 +10,6 @@ export default function ThemePage() {
   const currentTheme = useSelector(selectCurrentTheme);
   return (
     <>
-      <Navigate />
       <Grid
         container
         direction="column"
@@ -19,6 +18,7 @@ export default function ThemePage() {
         alignContent="center"
         wrap="nowrap"
       >
+        <Navigate />
         <Box component={Paper}>
           <Container maxWidth="lg">
             <h3>Theme page</h3>

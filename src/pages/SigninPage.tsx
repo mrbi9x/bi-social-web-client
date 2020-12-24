@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import {
   Paper,
@@ -14,18 +14,12 @@ import {
   IconButton,
   Divider,
 } from "@material-ui/core";
-import {
-  AccountBox,
-  Clear,
-  Lock,
-  Visibility,
-  VisibilityOff,
-} from "@material-ui/icons";
+import { Clear, Visibility, VisibilityOff } from "@material-ui/icons";
 import { AppDispatch } from "configs/store";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth, doLogin } from "configs/authSlice";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { getSecretUUID, authen, AuthRequest } from "apis/AuthApi";
+import { AuthRequest } from "apis/AuthApi";
 import { useForm } from "react-hook-form";
 
 const useStyles = makeStyles((theme) => ({
@@ -59,24 +53,30 @@ const SigninPage: FC<any> = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const backUrl = (location.state as ISigninPageLocationState)?.from;
-  // if (isAuth) {
-  //   navigate(backUrl ? backUrl : "/");
-  // }
   const dispatch: AppDispatch = useDispatch();
   const { register, handleSubmit, reset, errors } = useForm<AuthRequest>();
   const [showPassword, setShowPassword] = useState(false);
 
   const handlerSignin = (data: AuthRequest) => {
     try {
-      dispatch(doLogin(data)).then(() => navigate(backUrl ? backUrl : "/"));
+      dispatch(doLogin(data)).then(() => goBack());
     } catch (error) {
       console.log(error);
     }
   };
 
+  const goBack = useCallback(() => {
+    navigate(backUrl ? backUrl : "/");
+  }, [backUrl, navigate]);
+
+  useEffect(() => {
+    if (isAuth) {
+      goBack();
+    }
+  }, [isAuth, goBack]);
+
   return (
     <>
-      {isAuth && navigate(-1)}
       <Grid
         container
         direction="column"
