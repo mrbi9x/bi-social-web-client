@@ -4,17 +4,27 @@ export interface AuthRequest {
   username: string;
   password: string;
 }
-interface AuthResponse {
-  token?: string;
+export interface AuthResponse {
   type?: string;
+  accessToken?: string;
+  refreshToken?: string;
 }
+
+axios.interceptors.response.use(
+  (res) => res.data,
+  (err) => console.log(err)
+);
 
 const authen = async (authReq: AuthRequest): Promise<AuthResponse> => {
-  return axios.post("/auth/token", authReq).then((res) => res.data);
+  return axios.post("/auth/token", authReq);
 };
 
-async function getSecretUUID() {
+const getSecretUUID = async () => {
   return axios.get("/api/uuid");
-}
+};
 
-export { getSecretUUID, authen };
+const retrieveTokenWithCookie = async (): Promise<AuthResponse> => {
+  return axios.get("/auth/refreshToken").then((res) => res.data);
+};
+
+export { getSecretUUID, authen, retrieveTokenWithCookie };

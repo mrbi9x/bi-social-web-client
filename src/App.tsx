@@ -6,6 +6,7 @@ import { toggleTheme, selectCurrentTheme } from "./configs/themeSlice";
 import { AppDispatch } from "./configs/store";
 import Routers from "components/routers/Routers";
 import { BrowserRouter as Router } from "react-router-dom";
+import { checkAuthStatus } from "configs/authSlice";
 
 const App: React.FC = () => {
   const currentTheme = useSelector(selectCurrentTheme);
@@ -16,6 +17,7 @@ const App: React.FC = () => {
     if (localTheme) {
       dispatch(toggleTheme(localTheme));
     }
+    dispatch(checkAuthStatus());
   }, [dispatch]);
 
   return (

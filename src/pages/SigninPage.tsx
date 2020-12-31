@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, {
+  BaseSyntheticEvent,
+  FC,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Grid from "@material-ui/core/Grid";
 import {
   Paper,
@@ -54,20 +61,25 @@ const SigninPage: FC<any> = () => {
   const location = useLocation();
   const backUrl = (location.state as ISigninPageLocationState)?.from;
   const dispatch: AppDispatch = useDispatch();
-  const { register, handleSubmit, reset, errors } = useForm<AuthRequest>();
+  const { register, handleSubmit, reset, errors } = useForm<AuthRequest>({
+    criteriaMode: "firstError",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
-  const handlerSignin = (data: AuthRequest) => {
+  const handlerSignin = (data: AuthRequest, event: any) => {
+    event.preventDefault();
     try {
-      dispatch(doLogin(data)).then(() => goBack());
+      dispatch(doLogin(data));
     } catch (error) {
       console.log(error);
     }
   };
 
   const goBack = useCallback(() => {
-    navigate(backUrl ? backUrl : "/");
-  }, [backUrl, navigate]);
+    if (isAuth) {
+      navigate(backUrl ? backUrl : "/");
+    }
+  }, [backUrl, navigate, isAuth]);
 
   useEffect(() => {
     if (isAuth) {
@@ -99,13 +111,16 @@ const SigninPage: FC<any> = () => {
                 <Typography variant="h4" color="initial" align="center">
                   Signin
                 </Typography>
+                <Typography variant="subtitle2" color="error">
+                  {error && JSON.stringify(error)}
+                </Typography>
                 <TextField
                   name="username"
                   id="username"
                   label="Email"
-                  variant="outlined"
+                  // variant="outlined"
                   margin="normal"
-                  placeholder="Email"
+                  // placeholder="Email"
                   autoComplete="off"
                   color="primary"
                   fullWidth
@@ -136,9 +151,9 @@ const SigninPage: FC<any> = () => {
                   name="password"
                   label="Password"
                   type={showPassword ? "text" : "password"}
-                  variant="outlined"
+                  // variant="outlined"
                   margin="normal"
-                  placeholder="Password"
+                  // placeholder="Password"
                   color="primary"
                   fullWidth
                   error={errors.password !== undefined}
@@ -188,9 +203,6 @@ const SigninPage: FC<any> = () => {
                     Not have account? <NavLink to="/signup">Signup</NavLink>
                   </Typography>
                 </Box>
-                <Typography variant="subtitle2" color="error">
-                  {error && JSON.stringify(error)}
-                </Typography>
               </form>
             </Box>
           </Paper>
