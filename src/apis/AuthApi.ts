@@ -9,14 +9,14 @@ export interface AuthResponse {
   accessToken?: string;
   refreshToken?: string;
 }
-
-axios.interceptors.response.use(
-  (res) => res.data,
-  (err) => console.log(err)
-);
+//
+// axios.interceptors.response.use(
+//   (res) => res.data,
+//   (err) => console.log(err)
+// );
 
 const authen = async (authReq: AuthRequest): Promise<AuthResponse> => {
-  return axios.post("/auth/token", authReq);
+  return axios.post("/public/auth/token", authReq);
 };
 
 const getSecretUUID = async () => {
@@ -24,7 +24,7 @@ const getSecretUUID = async () => {
 };
 
 const retrieveTokenWithCookie = async (): Promise<AuthResponse> => {
-  return axios.get("/auth/refreshToken").then((res) => res.data);
+  return axios.get("/public/auth/refreshToken");
 };
 
 export { getSecretUUID, authen, retrieveTokenWithCookie };

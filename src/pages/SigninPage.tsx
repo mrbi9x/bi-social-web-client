@@ -77,7 +77,7 @@ const SigninPage: FC<any> = () => {
 
   const goBack = useCallback(() => {
     if (isAuth) {
-      navigate(backUrl ? backUrl : "/");
+      navigate(-1);
     }
   }, [backUrl, navigate, isAuth]);
 

@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import { NavLink } from "react-router-dom";
 import Navigate from "components/routers/Navigate";
 
 export default function Home() {
