@@ -20,7 +20,7 @@ export default function Routers() {
       element: isAuth ? (
         <ThemePage />
       ) : (
-        <Navigate to="/signin" state={{ from: "/themes" }} replace={true} />
+        <Navigate to="/signin" state={{ from: "/themes" }} /> //replace={true}
       ),
     },
     {
