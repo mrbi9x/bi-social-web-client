@@ -36,7 +36,7 @@ export default function Header() {
         alignContent="stretch"
         wrap="nowrap"
       >
-        <AppBar color="transparent" position="fixed">
+        <AppBar color="transparent" position="fixed" elevation={0}>
           <Container maxWidth="lg" disableGutters>
             <Toolbar>
               <Box component="span" className={classes.appbarBranding}>
@@ -58,8 +58,8 @@ export default function Header() {
                   inputMode="search"
                   margin="dense"
                   InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
+                    startAdornment: (
+                      <InputAdornment position="start">
                         <SearchIcon />
                       </InputAdornment>
                     ),
@@ -68,7 +68,7 @@ export default function Header() {
               </Box>
               <Box>
                 <Button variant="outlined" color="default" size="medium">
-                  play
+                  Start
                 </Button>
               </Box>
             </Toolbar>
