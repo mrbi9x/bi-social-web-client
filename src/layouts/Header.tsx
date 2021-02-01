@@ -9,15 +9,21 @@ import {
   TextField,
   InputAdornment,
   Button,
+  Link,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { BubbleChart } from "@material-ui/icons";
+import { BubbleChart, AccountCircle, AccountBox } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles({
   appbarBranding: {
     display: "inline-flex",
     alignItems: "center",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none",
+    },
   },
   appbarClearfix: {
     backgroundColor: "white",
@@ -28,6 +34,9 @@ export default function Header() {
   const classes = useStyles();
   return (
     <>
+      <AppBar position="static" className={classes.appbarClearfix}>
+        <Toolbar disableGutters />
+      </AppBar>
       <Grid
         container
         direction="row"
@@ -39,16 +48,21 @@ export default function Header() {
         <AppBar color="transparent" position="fixed" elevation={0}>
           <Container maxWidth="lg" disableGutters>
             <Toolbar>
-              <Box component="span" className={classes.appbarBranding}>
+              <Link
+                component={RouterLink}
+                to="/"
+                color="primary"
+                className={classes.appbarBranding}
+                underline="none"
+              >
                 <BubbleChart fontSize="large" />
                 <Typography variant="h5" component="h1" noWrap>
                   Bi Social
                 </Typography>
-              </Box>
+              </Link>
               <Box style={{ flexGrow: 1, textAlign: "center" }}>
                 <TextField
                   id="globalSearch"
-                  //   label="Search"
                   placeholder="Search"
                   variant="outlined"
                   //   color="primary"
@@ -67,17 +81,21 @@ export default function Header() {
                 />
               </Box>
               <Box>
-                <Button variant="outlined" color="default" size="medium">
-                  Start
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="medium"
+                  component={RouterLink}
+                  to="/login"
+                  startIcon={<AccountBox />}
+                >
+                  Login
                 </Button>
               </Box>
             </Toolbar>
           </Container>
         </AppBar>
       </Grid>
-      <AppBar position="static" className={classes.appbarClearfix}>
-        <Toolbar />
-      </AppBar>
     </>
   );
 }

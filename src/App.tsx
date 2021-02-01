@@ -18,16 +18,19 @@ const App: React.FC = () => {
     if (localTheme) {
       dispatch(toggleTheme(localTheme));
     }
-    dispatch(checkAuthStatus());
+    // dispatch(checkAuthStatus());
   }, [dispatch]);
 
   return (
     <>
       <ThemeProvider theme={getTheme(currentTheme)}>
         <CssBaseline />
-        <GlobalLayout />
+        <Router>
+          {/* <Routers /> */}
+          <GlobalLayout />
+        </Router>
         {/* <Router>
-          <Routers />
+          
         </Router> */}
       </ThemeProvider>
     </>
