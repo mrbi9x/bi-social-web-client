@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Header from "./Header";
+import Header from "components/Header";
 import LeftSidebar from "views/LeftSidebar";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function GlobalLayout() {
+export default function HomeLayout() {
   const classes = useStyles();
   return (
     <>
@@ -77,7 +77,7 @@ export default function GlobalLayout() {
                   {new Array(100).fill(null).map((item, idx) => (
                     <>
                       <Paper key={idx}>
-                        <Typography variant="h6" color="initial">
+                        <Typography variant="body1" color="initial">
                           {idx + 1}. Lorem ipsum dolor sit amet, consectetur
                           adipiscing elit, sed do eiusmod tempor incididunt ut
                           labore et dolore magna aliqua. Ut enim ad minim
@@ -95,9 +95,9 @@ export default function GlobalLayout() {
                 </Box>
               </Grid>
               <Grid item container className={classes.rightSidebar}>
-                <Box width="250px">
+                <Box width="300px">
                   <Paper>
-                    <Typography variant="h6" color="initial">
+                    <Typography variant="body2" color="initial">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation

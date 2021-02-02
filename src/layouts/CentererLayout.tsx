@@ -6,19 +6,15 @@ const CentererLayout: React.FC = ({ children, ...props }) => {
   return (
     <Grid
       container
-      direction="row"
+      direction="column"
       justify="center"
       alignItems="center"
       alignContent="center"
       wrap="nowrap"
+      style={{ height: "100vh" }}
       {...props}
     >
       {children}
-      <Paper>
-        <Typography variant="h1" color="initial">
-          Centerer Layout
-        </Typography>
-      </Paper>
     </Grid>
   );
 };

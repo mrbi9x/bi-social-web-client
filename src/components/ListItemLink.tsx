@@ -12,7 +12,7 @@ type ListItemLinkProps = {
 
 const useStyles = makeStyles((theme: Theme) => ({
   listItemIcon: {
-    minWidth: theme.spacing(4),
+    minWidth: theme.spacing(5),
   },
 }));
 

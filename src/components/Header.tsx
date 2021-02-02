@@ -11,12 +11,12 @@ import {
   Button,
   Link,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { BubbleChart, AccountCircle, AccountBox } from "@material-ui/icons";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { BubbleChart, AccountBox } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link as RouterLink } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   appbarBranding: {
     display: "inline-flex",
     alignItems: "center",
@@ -26,9 +26,9 @@ const useStyles = makeStyles({
     },
   },
   appbarClearfix: {
-    backgroundColor: "white",
+    backgroundColor: theme.palette.background.paper,
   },
-});
+}));
 
 export default function Header() {
   const classes = useStyles();
@@ -51,7 +51,7 @@ export default function Header() {
               <Link
                 component={RouterLink}
                 to="/"
-                color="primary"
+                color="inherit"
                 className={classes.appbarBranding}
                 underline="none"
               >
@@ -65,7 +65,7 @@ export default function Header() {
                   id="globalSearch"
                   placeholder="Search"
                   variant="outlined"
-                  //   color="primary"
+                  color="primary"
                   size="small"
                   // value={}
                   // onChange={}
@@ -74,7 +74,7 @@ export default function Header() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon />
+                        <SearchIcon color="inherit" />
                       </InputAdornment>
                     ),
                   }}
@@ -83,7 +83,7 @@ export default function Header() {
               <Box>
                 <Button
                   variant="outlined"
-                  color="primary"
+                  color="default"
                   size="medium"
                   component={RouterLink}
                   to="/login"

@@ -7,7 +7,7 @@ import { AppDispatch } from "./configs/store";
 import Routers from "components/routers/Routers";
 import { BrowserRouter as Router } from "react-router-dom";
 import { checkAuthStatus } from "configs/authSlice";
-import GlobalLayout from "layouts/GlobalLayout";
+import HomeLayout from "layouts/HomeLayout";
 
 const App: React.FC = () => {
   const currentTheme = useSelector(selectCurrentTheme);
@@ -26,8 +26,8 @@ const App: React.FC = () => {
       <ThemeProvider theme={getTheme(currentTheme)}>
         <CssBaseline />
         <Router>
-          {/* <Routers /> */}
-          <GlobalLayout />
+          <Routers />
+          {/* <HomeLayout /> */}
         </Router>
         {/* <Router>
           
