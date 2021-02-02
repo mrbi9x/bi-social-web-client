@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme: Theme) => ({
       textDecoration: "none",
     },
   },
+  brandingText: {
+    [theme.breakpoints.only("xs")]: {
+      display: "none",
+    },
+  },
   appbarClearfix: {
     backgroundColor: theme.palette.background.paper,
   },
@@ -56,7 +61,12 @@ export default function Header() {
                 underline="none"
               >
                 <BubbleChart fontSize="large" />
-                <Typography variant="h5" component="h1" noWrap>
+                <Typography
+                  variant="h5"
+                  component="h1"
+                  noWrap
+                  className={classes.brandingText}
+                >
                   Bi Social
                 </Typography>
               </Link>
