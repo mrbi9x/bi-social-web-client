@@ -18,7 +18,7 @@ const themeSlice = createSlice({
   initialState,
   reducers: {
     toggleTheme(state, action: PayloadAction<string | undefined>) {
-      if (action) {
+      if (action?.payload) {
         state.currentTheme =
           action.payload === ThemeEnum.DARK ? ThemeEnum.DARK : ThemeEnum.LIGHT;
       } else {

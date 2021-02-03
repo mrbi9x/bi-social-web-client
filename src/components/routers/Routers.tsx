@@ -1,15 +1,14 @@
-import { selectAuth } from "configs/authSlice";
+import ExplorePage from "pages/ExplorePage";
 import Homepage from "pages/Homepage";
 import NotFoundPage from "pages/NotFoundPage";
-import SigninPage from "pages/SigninPage";
+import LoginPage from "pages/LoginPage";
 import ThemePage from "pages/ThemePage";
+import TrendingPage from "pages/TrendingPage";
 import React from "react";
-import { useSelector } from "react-redux";
-import { useRoutes, Navigate } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
+import AuthRouter from "./AuthRouter";
 
 export default function Routers() {
-  const { isAuth } = useSelector(selectAuth);
-
   const rootRouters = useRoutes([
     {
       path: "/",
@@ -17,15 +16,27 @@ export default function Routers() {
     },
     {
       path: "/themes",
-      element: isAuth ? (
-        <ThemePage />
-      ) : (
-        <Navigate to="/login" state={{ from: "/themes" }} /> //replace={true}
-      ),
+      element: <AuthRouter to="/themes" element={<ThemePage />} />,
     },
     {
       path: "/login",
-      element: <SigninPage />,
+      element: <LoginPage />,
+    },
+    {
+      path: "/explore",
+      element: <ExplorePage />,
+    },
+    {
+      path: "/trending",
+      element: <AuthRouter to="/trending" element={<TrendingPage />} />,
+    },
+    {
+      path: "/policy",
+      element: <TrendingPage />,
+    },
+    {
+      path: "/about",
+      element: <TrendingPage />,
     },
     {
       path: "*",

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthRequest, authen, retrieveTokenWithCookie } from "apis/AuthApi";
+import { AuthResponse } from "payloads/responses/AuthResponse";
 interface AuthState {
   status: "initial" | "idle" | "loading" | "error";
   isAuth?: boolean;
@@ -45,7 +46,8 @@ const authSlice = createSlice({
       })
       .addCase(doLogin.fulfilled, (state, action) => {
         console.log(action.payload);
-        return { ...action.payload, status: "idle", isAuth: true };
+        const authRes: AuthResponse = action.payload;
+        return { ...authRes, status: "idle", isAuth: true };
       })
       // check auth status
       .addCase(checkAuthStatus.fulfilled, (state, action) => {

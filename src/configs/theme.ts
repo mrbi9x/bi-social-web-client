@@ -1,7 +1,7 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme, Theme } from "@material-ui/core";
 import { ThemeEnum } from "./themeSlice";
 
-export const getTheme = (currentTheme: ThemeEnum | undefined) => {
+export const getTheme = (currentTheme: ThemeEnum | undefined): Theme => {
   if (currentTheme && currentTheme === ThemeEnum.DARK) {
     return createMuiTheme({
       palette: {

@@ -1,12 +1,4 @@
-import React, {
-  BaseSyntheticEvent,
-  FC,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import Grid from "@material-ui/core/Grid";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import {
   Paper,
   Button,
@@ -28,6 +20,8 @@ import { selectAuth, doLogin } from "configs/authSlice";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthRequest } from "apis/AuthApi";
 import { useForm } from "react-hook-form";
+import { Location, State } from "history";
+import CentererLayout from "layouts/CentererLayout";
 
 const useStyles = makeStyles((theme) => ({
   loginContainer: {
@@ -50,17 +44,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ISigninPageLocationState {
+interface ILoginPageLocationState {
   from?: string;
 }
 
-const SigninPage: FC<any> = () => {
+const LoginPage: FC = () => {
   const classes = useStyles();
   const { isAuth, status, error } = useSelector(selectAuth);
   const navigate = useNavigate();
-  const location = useLocation();
-  const backUrl = (location.state as ISigninPageLocationState)?.from;
+  const location: Location<State> = useLocation();
+  const backUrl = (location.state as ILoginPageLocationState)?.from;
   const dispatch: AppDispatch = useDispatch();
+
   const { register, handleSubmit, reset, errors } = useForm<AuthRequest>({
     criteriaMode: "firstError",
   });
@@ -77,7 +72,7 @@ const SigninPage: FC<any> = () => {
 
   const goBack = useCallback(() => {
     if (isAuth) {
-      navigate(-1);
+      backUrl ? navigate(backUrl) : navigate(-1);
     }
   }, [backUrl, navigate, isAuth]);
 
@@ -89,16 +84,7 @@ const SigninPage: FC<any> = () => {
 
   return (
     <>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        alignContent="center"
-        wrap="nowrap"
-        component="main"
-        style={{ width: "100vw", minHeight: "100vh" }}
-      >
+      <CentererLayout>
         <Container maxWidth="xs" fixed className={classes.loginContainer}>
           <Paper elevation={24}>
             <Box>
@@ -207,9 +193,9 @@ const SigninPage: FC<any> = () => {
             </Box>
           </Paper>
         </Container>
-      </Grid>
+      </CentererLayout>
     </>
   );
 };
 
-export default SigninPage;
+export default LoginPage;

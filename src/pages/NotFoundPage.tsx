@@ -33,6 +33,7 @@ export default function NotFoundPage() {
               variant="outlined"
               color="default"
               startIcon={<ArrowBack />}
+              onClick={() => navigate(-1)}
             >
               Back
             </Button>

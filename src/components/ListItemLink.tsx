@@ -7,7 +7,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import Link from "@material-ui/icons/Link";
-import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 type ListItemLinkProps = {
   to: string;
@@ -17,7 +17,7 @@ type ListItemLinkProps = {
 
 const useStyles = makeStyles((theme: Theme) => ({
   listItem: {
-    padding: theme.spacing(2),
+    padding: `${theme.spacing(1.5)}px ${theme.spacing(2)}px`,
   },
   listItemIcon: {
     minWidth: theme.spacing(3),

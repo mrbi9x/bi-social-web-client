@@ -49,22 +49,38 @@ const LeftSidebar: React.FC = () => {
 
   return (
     <>
-      <Paper elevation={12} className={classes.rootNavigation}>
+      <Paper elevation={24} className={classes.rootNavigation}>
         <List className={classes.rootLink}>
-          <ListItemLink to="/" primary="Homepage" icon={<Home />} />
-          <ListItemLink to="/explore" primary="Explore" icon={<Explore />} />
+          <ListItemLink to="/" primary="Homepage" icon={<Home />} key="/" />
+          <ListItemLink
+            to="/explore"
+            primary="Explore"
+            icon={<Explore />}
+            key="/explore"
+          />
           <ListItemLink
             to="/trending"
             primary="Trending"
             icon={<TrendingUp />}
+            key="/trending"
           />
           <Divider variant="middle" />
-          <ListItemLink to="/policy" primary="Policy" icon={<Policy />} />
-          <ListItemLink to="/about" primary="About" icon={<Info />} />
+          <ListItemLink
+            to="/policy"
+            primary="Policy"
+            icon={<Policy />}
+            key="/policy"
+          />
+          <ListItemLink
+            to="/about"
+            primary="About"
+            icon={<Info />}
+            key="/about"
+          />
         </List>
       </Paper>
-      <Box marginTop={4} display={{ sm: "none", md: "none" }}>
-        <Paper elevation={6} className={classes.infoBox}>
+      <Box marginTop={4} display={{ sm: "none", lg: "block" }}>
+        <Paper elevation={24} className={classes.infoBox}>
           <ToggleTheme />
           <Button
             variant="outlined"
