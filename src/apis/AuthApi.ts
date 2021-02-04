@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "configs/axiosConfig";
 
 export interface AuthRequest {
   username: string;
@@ -9,22 +9,17 @@ export interface AuthResponse {
   accessToken?: string;
   refreshToken?: string;
 }
-//
-// axios.interceptors.response.use(
-//   (res) => res.data,
-//   (err) => console.log(err)
-// );
 
 const authen = async (authReq: AuthRequest): Promise<AuthResponse> => {
-  return axios.post("/public/auth/token", authReq);
+  return axiosInstance.post("/public/auth/token", authReq);
 };
 
 const getSecretUUID = async () => {
-  return axios.get("/api/uuid");
+  return axiosInstance.get("/api/uuid");
 };
 
 const retrieveTokenWithCookie = async (): Promise<AuthResponse> => {
-  return axios.get("/public/auth/refreshToken");
+  return axiosInstance.get("/public/auth/refreshToken");
 };
 
 export { getSecretUUID, authen, retrieveTokenWithCookie };
