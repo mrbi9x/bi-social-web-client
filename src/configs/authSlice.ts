@@ -17,12 +17,14 @@ const initialState: AuthState = {
 export const doLogin = createAsyncThunk(
   "auth/doLogin",
   async (authRequest: AuthRequest) => {
-    return authen(authRequest);
+    const res = await authen(authRequest);
+    return res.data;
   }
 );
 
 export const checkAuthStatus = createAsyncThunk("auth/checkAuth", async () => {
-  return retrieveTokenWithCookie();
+  const res = await retrieveTokenWithCookie();
+  return res.data;
 });
 
 const authSlice = createSlice({
@@ -44,11 +46,14 @@ const authSlice = createSlice({
         state.error = action.error.message;
         console.log(action);
       })
-      .addCase(doLogin.fulfilled, (state, action) => {
-        console.log(action.payload);
-        const authRes: AuthResponse = action.payload;
-        return { ...authRes, status: "idle", isAuth: true };
-      })
+      .addCase(
+        doLogin.fulfilled,
+        (state: AuthState, action: PayloadAction<AuthResponse>) => {
+          console.log(action.payload);
+          const authRes: AuthResponse = action.payload;
+          return { ...authRes, status: "idle", isAuth: true };
+        }
+      )
       // check auth status
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         return { ...action.payload, status: "idle", isAuth: true };

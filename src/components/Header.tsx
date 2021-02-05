@@ -73,7 +73,7 @@ export default function Header() {
               <Box style={{ flexGrow: 1, textAlign: "center" }}>
                 <TextField
                   id="globalSearch"
-                  placeholder="Search"
+                  placeholder="Search..."
                   variant="outlined"
                   color="primary"
                   size="small"
