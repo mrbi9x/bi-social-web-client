@@ -7,6 +7,7 @@ import TrendingPage from "pages/TrendingPage";
 import React from "react";
 import { useRoutes } from "react-router-dom";
 import AuthRouter from "./AuthRouter";
+import SignupPage from "pages/SignupPage";
 
 export default function Routers() {
   const rootRouters = useRoutes([
@@ -21,6 +22,10 @@ export default function Routers() {
     {
       path: "/login",
       element: <LoginPage />,
+    },
+    {
+      path: "/signup",
+      element: <SignupPage />,
     },
     {
       path: "/explore",

@@ -113,24 +113,24 @@ const LoginPage: FC = () => {
                   error={errors.username ? true : false}
                   helperText={errors?.username && "Email is required"}
                   inputRef={register({ required: true })}
-                  InputProps={{
-                    // startAdornment: (
-                    //   <InputAdornment position="start">
-                    //     <AccountBox className={classes.textfieldIconColor} />
-                    //   </InputAdornment>
-                    // ),
-                    endAdornment: (
-                      <InputAdornment position="end" disableTypography>
-                        <IconButton
-                          aria-label="Clear"
-                          onClick={() => reset()}
-                          size="small"
-                        >
-                          <Clear />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
+                  // InputProps={{
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <AccountBox className={classes.textfieldIconColor} />
+                  //     </InputAdornment>
+                  //   ),
+                  //   endAdornment: (
+                  //     <InputAdornment position="end" disableTypography>
+                  //       <IconButton
+                  //         aria-label="Clear"
+                  //         onClick={() => reset()}
+                  //         size="small"
+                  //       >
+                  //         <Clear />
+                  //       </IconButton>
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
                 <TextField
                   id="password"

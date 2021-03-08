@@ -3,18 +3,17 @@ import {
   AppBar,
   Container,
   Toolbar,
-  Typography,
   Grid,
   Box,
   TextField,
   InputAdornment,
   Button,
-  Link,
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { BubbleChart, AccountBox } from "@material-ui/icons";
+import { AccountBox } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link as RouterLink } from "react-router-dom";
+import Branding from "./Branding";
 
 const useStyles = makeStyles((theme: Theme) => ({
   appbarBranding: {
@@ -53,23 +52,7 @@ export default function Header() {
         <AppBar color="transparent" position="fixed" elevation={0}>
           <Container maxWidth="lg" disableGutters>
             <Toolbar>
-              <Link
-                component={RouterLink}
-                to="/"
-                color="inherit"
-                className={classes.appbarBranding}
-                underline="none"
-              >
-                <BubbleChart fontSize="large" />
-                <Typography
-                  variant="h5"
-                  component="h1"
-                  noWrap
-                  className={classes.brandingText}
-                >
-                  Bi Social
-                </Typography>
-              </Link>
+              <Branding />
               <Box style={{ flexGrow: 1, textAlign: "center" }}>
                 <TextField
                   id="globalSearch"
