@@ -22,6 +22,7 @@ import { AuthRequest } from "apis/AuthApi";
 import { useForm } from "react-hook-form";
 import { Location, State } from "history";
 import CentererLayout from "layouts/CentererLayout";
+import Branding from "components/Branding";
 
 const useStyles = makeStyles((theme) => ({
   loginContainer: {
@@ -56,9 +57,11 @@ const LoginPage: FC = () => {
   const backUrl = (location.state as ILoginPageLocationState)?.from;
   const dispatch: AppDispatch = useDispatch();
 
-  const { register, handleSubmit, reset, errors } = useForm<AuthRequest>({
-    criteriaMode: "firstError",
-  });
+  const { register, handleSubmit, reset, errors, watch } = useForm<AuthRequest>(
+    {
+      criteriaMode: "firstError",
+    }
+  );
   const [showPassword, setShowPassword] = useState(false);
 
   const handlerSignin = (data: AuthRequest, event: any) => {
@@ -93,58 +96,71 @@ const LoginPage: FC = () => {
                 onSubmit={handleSubmit(handlerSignin)}
                 noValidate
               >
-                <Avatar />
-                <Typography variant="h4" color="initial" align="center">
+                <Branding />
+                <Avatar variant="rounded" />
+                {/* <Typography variant="h6" color="initial" align="center">
                   Signin
-                </Typography>
+                </Typography> */}
                 <Typography variant="subtitle2" color="error">
-                  {error && JSON.stringify(error)}
+                  {error}&nbsp;
                 </Typography>
                 <TextField
                   name="username"
                   id="username"
-                  label="Email"
-                  // variant="outlined"
+                  label="Email or Phone"
+                  variant="outlined"
+                  // size="small"
                   margin="normal"
                   // placeholder="Email"
                   autoComplete="off"
                   color="primary"
                   fullWidth
                   error={errors.username ? true : false}
-                  helperText={errors?.username && "Email is required"}
-                  inputRef={register({ required: true })}
-                  // InputProps={{
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <AccountBox className={classes.textfieldIconColor} />
-                  //     </InputAdornment>
-                  //   ),
-                  //   endAdornment: (
-                  //     <InputAdornment position="end" disableTypography>
-                  //       <IconButton
-                  //         aria-label="Clear"
-                  //         onClick={() => reset()}
-                  //         size="small"
-                  //       >
-                  //         <Clear />
-                  //       </IconButton>
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
+                  helperText={errors?.username && errors.username.message}
+                  inputRef={register({
+                    required: {
+                      value: true,
+                      message: "Email or Phone is required.",
+                    },
+                  })}
+                  InputProps={{
+                    //   startAdornment: (
+                    //     <InputAdornment position="start">
+                    //       <AccountBox className={classes.textfieldIconColor} />
+                    //     </InputAdornment>
+                    //   ),
+                    endAdornment: (
+                      <InputAdornment position="end" disableTypography>
+                        <IconButton
+                          aria-label="Clear"
+                          onClick={() => reset()}
+                          size="small"
+                        >
+                          <Clear />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <TextField
                   id="password"
                   name="password"
                   label="Password"
                   type={showPassword ? "text" : "password"}
-                  // variant="outlined"
+                  variant="outlined"
                   margin="normal"
                   // placeholder="Password"
                   color="primary"
                   fullWidth
                   error={errors.password !== undefined}
-                  helperText={errors.username && "Password is required"}
-                  inputRef={register({ required: true })}
+                  helperText={errors.password && errors.password.message}
+                  inputRef={register({
+                    required: { value: true, message: "Password is required." },
+                    minLength: {
+                      value: 6,
+                      message: "Password must atlest 6 char.",
+                    },
+                  })}
                   InputProps={{
                     // startAdornment: (
                     //   <InputAdornment position="start">
@@ -179,7 +195,13 @@ const LoginPage: FC = () => {
                 >
                   Signin
                 </Button>
-                <Divider variant="middle" />
+                <Divider
+                  variant="middle"
+                  style={{ margin: "5px" }}
+                  flexItem={true}
+                  light={true}
+                />
+
                 <Box>
                   <Typography
                     variant="subtitle2"

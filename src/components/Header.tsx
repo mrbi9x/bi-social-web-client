@@ -53,7 +53,7 @@ export default function Header() {
           <Container maxWidth="lg" disableGutters>
             <Toolbar>
               <Branding />
-              <Box style={{ flexGrow: 1, textAlign: "center" }}>
+              <Box style={{ flexGrow: 1, textAlign: "center" }} mx={2}>
                 <TextField
                   id="globalSearch"
                   placeholder="Search..."
@@ -63,11 +63,11 @@ export default function Header() {
                   // value={}
                   // onChange={}
                   inputMode="search"
-                  margin="dense"
+                  // margin="dense"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchIcon color="inherit" />
+                        <SearchIcon color="inherit" fontSize="small" />
                       </InputAdornment>
                     ),
                   }}
