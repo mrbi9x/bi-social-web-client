@@ -26,3 +26,4 @@ yarn-error.log*
 # IDEA
 .idea
 *.iml
+.env.development

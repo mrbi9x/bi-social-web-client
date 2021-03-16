@@ -1,13 +1,13 @@
+import React from "react";
 import ExplorePage from "pages/ExplorePage";
 import Homepage from "pages/Homepage";
 import NotFoundPage from "pages/NotFoundPage";
 import LoginPage from "pages/LoginPage";
 import ThemePage from "pages/ThemePage";
 import TrendingPage from "pages/TrendingPage";
-import React from "react";
 import { useRoutes } from "react-router-dom";
 import AuthRouter from "./AuthRouter";
-import SignupPage from "pages/SignupPage";
+import SignupPage from "pages/RegisterPage";
 
 export default function Routers() {
   const rootRouters = useRoutes([

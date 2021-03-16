@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAuth, doLogin } from "configs/authSlice";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AuthRequest } from "apis/AuthApi";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Location, State } from "history";
 import CentererLayout from "layouts/CentererLayout";
 import Branding from "components/Branding";
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     color: "gray",
   },
   submitButton: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(2, 1),
   },
 }));
 
@@ -57,11 +57,10 @@ const LoginPage: FC = () => {
   const backUrl = (location.state as ILoginPageLocationState)?.from;
   const dispatch: AppDispatch = useDispatch();
 
-  const { register, handleSubmit, reset, errors, watch } = useForm<AuthRequest>(
-    {
-      criteriaMode: "firstError",
-    }
-  );
+  const { handleSubmit, errors: fieldErrors, control } = useForm<AuthRequest>({
+    mode: "onTouched",
+    reValidateMode: "onChange",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handlerSignin = (data: AuthRequest, event: any) => {
@@ -104,7 +103,80 @@ const LoginPage: FC = () => {
                 <Typography variant="subtitle2" color="error">
                   {error}&nbsp;
                 </Typography>
-                <TextField
+                <Controller
+                  name="username"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Phone or Email is required.",
+                    },
+                  }}
+                  render={({ value, onBlur, onChange }) => (
+                    <TextField
+                      id="username"
+                      label="Phone or Email"
+                      variant="outlined"
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      fullWidth
+                      margin="normal"
+                      helperText={
+                        fieldErrors.username?.message
+                        // ? fieldErrors.username.message
+                        // : undefined
+                      }
+                      error={!!fieldErrors.username}
+                    />
+                  )}
+                />
+                <Controller
+                  name="password"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "Password is required.",
+                    },
+                  }}
+                  render={({ value, onBlur, onChange }) => (
+                    <TextField
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      label="Password"
+                      variant="outlined"
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      fullWidth
+                      margin="normal"
+                      helperText={fieldErrors.password?.message}
+                      error={!!fieldErrors.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="Show password"
+                              onClick={() => setShowPassword(!showPassword)}
+                              size="small"
+                            >
+                              {showPassword ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                        "aria-selected": false,
+                      }}
+                    />
+                  )}
+                />
+                {/* <TextField
                   name="username"
                   id="username"
                   label="Email or Phone"
@@ -115,7 +187,7 @@ const LoginPage: FC = () => {
                   autoComplete="off"
                   color="primary"
                   fullWidth
-                  error={errors.username ? true : false}
+                  error={!!errors.username}
                   helperText={errors?.username && errors.username.message}
                   inputRef={register({
                     required: {
@@ -141,19 +213,18 @@ const LoginPage: FC = () => {
                       </InputAdornment>
                     ),
                   }}
-                />
-                <TextField
+                /> */}
+                {/* <TextField
                   id="password"
                   name="password"
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   variant="outlined"
                   margin="normal"
-                  // placeholder="Password"
                   color="primary"
                   fullWidth
-                  error={errors.password !== undefined}
-                  helperText={errors.password && errors.password.message}
+                  error={!!fieldErrors.password}
+                  helperText={fieldErrors.password?.message}
                   inputRef={register({
                     required: { value: true, message: "Password is required." },
                     minLength: {
@@ -180,7 +251,7 @@ const LoginPage: FC = () => {
                     ),
                     "aria-selected": false,
                   }}
-                />
+                /> */}
                 <Button
                   variant="contained"
                   color="primary"
