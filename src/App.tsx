@@ -34,7 +34,7 @@ const App: React.FC = () => {
     if (!localTheme && prefersDarkMode && currentTheme === ThemeEnum.LIGHT) {
       dispatch(toggleTheme(ThemeEnum.DARK));
     }
-  }, []);
+  });
 
   // useEffect(() => {
   //   if (localTheme) {
@@ -48,12 +48,12 @@ const App: React.FC = () => {
   // }, [dispatch, prefersDarkMode, localTheme, currentTheme]);
 
   return (
-      <ThemeProvider theme={getTheme(currentTheme)}>
-        <CssBaseline />
-        <Router>
-          <Routers />
-        </Router>
-      </ThemeProvider>
+    <ThemeProvider theme={getTheme(currentTheme)}>
+      <CssBaseline />
+      <Router>
+        <Routers />
+      </Router>
+    </ThemeProvider>
   );
 };
 

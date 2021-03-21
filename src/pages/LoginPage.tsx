@@ -13,7 +13,7 @@ import {
   IconButton,
   Divider,
 } from "@material-ui/core";
-import { Clear, Visibility, VisibilityOff } from "@material-ui/icons";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { AppDispatch } from "configs/store";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth, doLogin } from "configs/authSlice";
@@ -123,11 +123,7 @@ const LoginPage: FC = () => {
                       onBlur={onBlur}
                       fullWidth
                       margin="normal"
-                      helperText={
-                        fieldErrors.username?.message
-                        // ? fieldErrors.username.message
-                        // : undefined
-                      }
+                      helperText={fieldErrors.username?.message}
                       error={!!fieldErrors.username}
                     />
                   )}

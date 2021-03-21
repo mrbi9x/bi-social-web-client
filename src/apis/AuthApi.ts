@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import axiosInstance from "configs/axiosConfig";
 
 export interface AuthRequest {
@@ -23,10 +23,15 @@ const getSecretUUID = async () => {
   return axiosInstance.get("/api/uuid");
 };
 
-const retrieveTokenWithCookie = async (): Promise<AxiosResponse<AuthResponse>> => {
-  return axiosInstance.get("/public/auth/refreshToken", {
-    withCredentials: true,
-  });
+const retrieveTokenWithCookie = async (): Promise<
+  AxiosResponse<AuthResponse>
+> => {
+  return axiosInstance
+    .get("/public/auth/refreshToken", {
+      withCredentials: true,
+    })
+    .then((res: AxiosResponse) => res.data)
+    .catch((err: AxiosError) => Promise.reject(err.response?.data.message));
 };
 
 export { getSecretUUID, authen, retrieveTokenWithCookie };

@@ -8,15 +8,12 @@ import {
   TextField,
   Button,
   makeStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import Branding from "components/Branding";
 import { NavLink } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import {
-  EMAIL_PATTERN,
-  validatePassword,
-  validatePhone,
-} from "utils/ValidattionUtil";
+import { EMAIL_PATTERN, validatePassword } from "utils/ValidattionUtil";
 import { RegisterRequest } from "payloads/requests/RegisterRequest";
 import { registerNewUser } from "apis/UserApi";
 
@@ -38,13 +35,18 @@ const RegisterPage = () => {
     reValidateMode: "onChange",
   });
 
+  const [loading, setloading] = React.useState(false);
+
   const onRegister = async (data: RegisterRequest) => {
     console.log(data);
+    setloading(true);
     try {
       const registerRes = await registerNewUser(data);
       console.log(registerRes);
     } catch (error) {
       console.log(error);
+    } finally {
+      setloading(false);
     }
   };
 
@@ -119,7 +121,7 @@ const RegisterPage = () => {
                       />
                     )}
                   />
-                  <Controller
+                  {/* <Controller
                     name="phone"
                     control={control}
                     defaultValue=""
@@ -149,7 +151,7 @@ const RegisterPage = () => {
                         error={!!fieldErrors.phone}
                       />
                     )}
-                  />
+                  /> */}
                   <Controller
                     name="email"
                     control={control}
@@ -221,6 +223,8 @@ const RegisterPage = () => {
                     type="submit"
                     size="large"
                     fullWidth
+                    disabled={loading}
+                    startIcon={loading && <CircularProgress size="1rem" />}
                   >
                     Register
                   </Button>

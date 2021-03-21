@@ -7,7 +7,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import Link from "@material-ui/icons/Link";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core";
 
 type ListItemLinkProps = {
   to: string;

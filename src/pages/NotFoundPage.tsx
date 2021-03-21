@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function NotFoundPage() {
   const classes = useStyles();
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <CentererLayout>
@@ -33,7 +38,7 @@ export default function NotFoundPage() {
               variant="outlined"
               color="default"
               startIcon={<ArrowBack />}
-              onClick={() => navigate(-1)}
+              onClick={goBack}
             >
               Back
             </Button>
